@@ -1,0 +1,219 @@
+{
+	"info": {
+		"_postman_id": "8a973908-6d6f-4db6-aad0-f5f768832b10",
+		"name": "Candidate",
+		"description": "This entity represents a person seeking a job.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Describe Candidate Data Model",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{resturl}}/meta/Candidate?fields=*&meta=full",
+					"protocol": "http",
+					"host": [
+						"{{resturl}}"
+					],
+					"path": [
+						"meta",
+						"Candidate"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "*"
+						},
+						{
+							"key": "meta",
+							"value": "full"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Creating a Candidate",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"name\":\"John Jameson\",\n\"firsName\": \"John\",\n\"lastName\": \"Jameson\",\n\"status\": \"Active\",\n\"customText1\": \"PostMan\",\n\"customFloat1\":\"3.14\"\n}"
+				},
+				"url": {
+					"raw": "http://{{resturl}}/entity/Candidate",
+					"protocol": "http",
+					"host": [
+						"{{resturl}}"
+					],
+					"path": [
+						"entity",
+						"Candidate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Candidate Search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var result = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable('CANDIDATE_ID', result.data[0].id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{resturl}}/search/Candidate?fields=*&query=customText1:PostMan",
+					"protocol": "http",
+					"host": [
+						"{{resturl}}"
+					],
+					"path": [
+						"search",
+						"Candidate"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "*"
+						},
+						{
+							"key": "query",
+							"value": "customText1:PostMan"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Candidate By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{resturl}}/entity/Candidate/{{CANDIDATE_ID}}?fields=*",
+					"protocol": "http",
+					"host": [
+						"{{resturl}}"
+					],
+					"path": [
+						"entity",
+						"Candidate",
+						"{{CANDIDATE_ID}}"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "*"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Getting a Candidate's Notes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{resturl}}/entity/Candidate/{{CANDIDATE_ID}}/notes?fields=*",
+					"protocol": "http",
+					"host": [
+						"{{resturl}}"
+					],
+					"path": [
+						"entity",
+						"Candidate",
+						"{{CANDIDATE_ID}}",
+						"notes"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "*"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Updating a Candidate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"travelMethod\": \"some travel method\"\r\n}"
+				},
+				"url": {
+					"raw": "http://{{resturl}}/entity/Candidate/{{CANDIDATE_ID}}",
+					"protocol": "http",
+					"host": [
+						"{{resturl}}"
+					],
+					"path": [
+						"entity",
+						"Candidate",
+						"{{CANDIDATE_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deleting a Candidate",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "BhRestToken",
+						"value": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{resturl}}/entity/Candidate/{{CANDIDATE_ID}}",
+					"protocol": "http",
+					"host": [
+						"{{resturl}}"
+					],
+					"path": [
+						"entity",
+						"Candidate",
+						"{{CANDIDATE_ID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

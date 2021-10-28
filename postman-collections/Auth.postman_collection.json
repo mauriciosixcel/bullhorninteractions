@@ -1,0 +1,220 @@
+{
+	"info": {
+		"_postman_id": "f4d392c9-5178-49e7-8244-2bd56b9750f3",
+		"name": "Auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Authorization",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var loc = pm.response.headers.get(\"Location\");\r",
+							"\r",
+							"//we only want the data after the question mark, which will be xx[1]\r",
+							"var xx = loc.split('?');\r",
+							"var attributes = xx[1].split('&');\r",
+							"\r",
+							"// we only care about the \"code\" attribute\r",
+							"var len = attributes.length;\r",
+							"var code_attribute_value = \"\"\r",
+							"var j = 0;\r",
+							"for (var i = 0; i < len; i++) {\r",
+							"    attribute_key = attributes[i].split('=')[0];\r",
+							"    if (attribute_key == \"code\") {\r",
+							"        code_attribute_value = attributes[i].split('=')[1];\r",
+							"    }\r",
+							"    j = j + 1;\r",
+							"}\r",
+							"pm.environment.set(\"location_code\", code_attribute_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "JSON",
+						"type": "text"
+					},
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{AccessTokenURL}}/authorize?client_id={{ClientID}}&response_type=code&action=Login&username={{Username}}&password={{Password}}",
+					"host": [
+						"{{AccessTokenURL}}"
+					],
+					"path": [
+						"authorize"
+					],
+					"query": [
+						{
+							"key": "client_id",
+							"value": "{{ClientID}}"
+						},
+						{
+							"key": "response_type",
+							"value": "code"
+						},
+						{
+							"key": "action",
+							"value": "Login"
+						},
+						{
+							"key": "username",
+							"value": "{{Username}}"
+						},
+						{
+							"key": "password",
+							"value": "{{Password}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. Get Access Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// set the access and refresh token environment variables\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"access_token\", jsonData.access_token);\r",
+							"postman.setEnvironmentVariable(\"refresh_token\", jsonData.refresh_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "JSON",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{AccessTokenURL}}/token?grant_type=authorization_code&code={{location_code}}&client_id={{ClientID}}&client_secret={{ClientSecret}}",
+					"host": [
+						"{{AccessTokenURL}}"
+					],
+					"path": [
+						"token"
+					],
+					"query": [
+						{
+							"key": "grant_type",
+							"value": "authorization_code"
+						},
+						{
+							"key": "code",
+							"value": "{{location_code}}"
+						},
+						{
+							"key": "client_id",
+							"value": "{{ClientID}}"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{ClientSecret}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. Get BHRestToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"restUrl\", jsonData.restUrl);\r",
+							"postman.setEnvironmentVariable(\"BhRestToken\", jsonData.BhRestToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{WebApi}}/login?version=*&access_token={{access_token}}&client_id={{ClientID}}&client_secret={{ClientSecret}}",
+					"host": [
+						"{{WebApi}}"
+					],
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "version",
+							"value": "*"
+						},
+						{
+							"key": "access_token",
+							"value": "{{access_token}}"
+						},
+						{
+							"key": "client_id",
+							"value": "{{ClientID}}"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{ClientSecret}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

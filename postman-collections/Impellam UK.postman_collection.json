@@ -1,0 +1,90 @@
+{
+	"info": {
+		"_postman_id": "ec747012-01cb-4856-94ef-a36b0cb19bee",
+		"name": "Impellam UK",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get ClientCorporation Data",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{restUrl}}/entity/ClientCorporation/586923?fields=id,parentClientCorporation&BhRestToken={{BhRestToken}}",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"entity",
+						"ClientCorporation",
+						"586923"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "id,parentClientCorporation"
+						},
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get ClientContact by company",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/search/ClientContact?BhRestToken={{BhRestToken}}&fields=id,firstName,lastName,status,isDeleted&query=clientCorporation.id:586923 AND (status:Active* OR status:Passive* OR status:\"New Lead\")&count=500&start=0",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"search",
+						"ClientContact"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "id,firstName,lastName,status,isDeleted"
+						},
+						{
+							"key": "query",
+							"value": "clientCorporation.id:586923 AND (status:Active* OR status:Passive* OR status:\"New Lead\")"
+						},
+						{
+							"key": "count",
+							"value": "500"
+						},
+						{
+							"key": "start",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,1285 @@
+{
+	"info": {
+		"_postman_id": "a5c3e864-6070-4323-b6ab-b470b8ae1f04",
+		"name": "Bobby Local Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Candidate Data",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{restUrl}}/entity/Candidate/1335714?BhRestToken={{BhRestToken}}&fields=*",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"entity",
+						"Candidate",
+						"1335714"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "*"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get job/req Data",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{restUrl}}/entity/JobOrder/49819?BhRestToken={{BhRestToken}}&fields=isOpen",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"entity",
+						"JobOrder",
+						"49819"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "isOpen"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get File Attachment Data",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{restUrl}}/entity/CandidateFileAttachment/2045443?BhRestToken={{BhRestToken}}&fields=id,externalID,name,isPrivate,candidate,contentType",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"entity",
+						"CandidateFileAttachment",
+						"2045443"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "id,externalID,name,isPrivate,candidate,contentType"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update File Attachment Data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"isPrivate\" : \"true\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{restUrl}}/entity/CandidateFileAttachment/1242007?BhRestToken={{BhRestToken}}",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"entity",
+						"CandidateFileAttachment",
+						"1242007"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Task",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/entity/Task/42295?fields=id,subject,type,isDeleted,isCompleted&BhRestToken={{BhRestToken}}",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"entity",
+						"Task",
+						"42295"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "id,subject,type,isDeleted,isCompleted"
+						},
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Earn Codes (query)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/query/EarnCode?BhRestToken={{BhRestToken}}&where=status='Active'&fields=id,title&count=250",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"query",
+						"EarnCode"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "where",
+							"value": "status='Active'"
+						},
+						{
+							"key": "fields",
+							"value": "id,title"
+						},
+						{
+							"key": "count",
+							"value": "250"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Candidate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"jobOrders\": [ {\"id\": 12306} ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{restUrl}}/entity/Note/755520?BhRestToken={{BhRestToken}}",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"entity",
+						"Note",
+						"755520"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "id,firstName,lastName,smsOptIn",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Candidates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/search/Candidate?BhRestToken={{BhRestToken}}&fields=id,firstName,lastName,customDate4,customInt7,customInt8,dateI9Expiration,dateOfBirth,ethnicity,federalAddtionalWitholdingsAmount,federalExemptions,federalFilingStatus,gender,i9OnFile,paperWorkOnFile,isExempt&query=id:([0 TO 9] [a TO z])&count=500&start=0",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"search",
+						"Candidate"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "id,firstName,lastName,customDate4,customInt7,customInt8,dateI9Expiration,dateOfBirth,ethnicity,federalAddtionalWitholdingsAmount,federalExemptions,federalFilingStatus,gender,i9OnFile,paperWorkOnFile,isExempt"
+						},
+						{
+							"key": "query",
+							"value": "id:([0 TO 9] [a TO z])",
+							"description": "description:([0 TO 9] [a TO z])"
+						},
+						{
+							"key": "count",
+							"value": "500"
+						},
+						{
+							"key": "start",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Job Order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"dateAdded\" : \"03/09/06 13:44\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{restUrl}}/entity/JobOrder/808?BhRestToken={{BhRestToken}}",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"entity",
+						"JobOrder",
+						"808"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "id,firstName,lastName,smsOptIn",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Query CandidateFileAttachment",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/query/CandidateFileAttachment?BhRestToken={{BhRestToken}}&where=externalID IS NOT NULL AND externalID NOT IN ('Portfolio', 'references')&fields=id,externalID,name,candidate,isPrivate&count=500",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"query",
+						"CandidateFileAttachment"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "where",
+							"value": "externalID IS NOT NULL AND externalID NOT IN ('Portfolio', 'references')"
+						},
+						{
+							"key": "fields",
+							"value": "id,externalID,name,candidate,isPrivate"
+						},
+						{
+							"key": "count",
+							"value": "500"
+						}
+					]
+				},
+				"description": "Query Attachments"
+			},
+			"response": []
+		},
+		{
+			"name": "Query JobSubmissions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/query/JobSubmission?BhRestToken={{BhRestToken}}&where=isDeleted=false&fields=id,status,candidate,jobOrder&count=500",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"query",
+						"JobSubmission"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "where",
+							"value": "isDeleted=false",
+							"description": "id = 110756"
+						},
+						{
+							"key": "fields",
+							"value": "id,status,candidate,jobOrder"
+						},
+						{
+							"key": "count",
+							"value": "500"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Query Appointments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/query/Appointment?BhRestToken={{BhRestToken}}&where=id>0&fields=id, appointmentUUID,type,subject,candidateReference,jobOrder,clientContactReference&count=500",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"query",
+						"Appointment"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "where",
+							"value": "id>0"
+						},
+						{
+							"key": "fields",
+							"value": "id, appointmentUUID,type,subject,candidateReference,jobOrder,clientContactReference"
+						},
+						{
+							"key": "count",
+							"value": "500"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Notes with NON-NULL externalID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/search/Note?BhRestToken={{BhRestToken}}&fields=id,externalID,isDeleted,dateAdded,personReference,comments&query=externalID:([0 TO 9] [a TO z])&count=500&start=0&sort=externalID",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"search",
+						"Note"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "id,externalID,isDeleted,dateAdded,personReference,comments"
+						},
+						{
+							"key": "query",
+							"value": "externalID:([0 TO 9] [a TO z])"
+						},
+						{
+							"key": "count",
+							"value": "500"
+						},
+						{
+							"key": "start",
+							"value": "0"
+						},
+						{
+							"key": "sort",
+							"value": "externalID"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Notes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/search/Note?BhRestToken={{BhRestToken}}&fields=id,externalID,dateAdded,personReference,jobOrder,comments&query=isDeleted:false&count=500&start=0&sort=externalID",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"search",
+						"Note"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "id,externalID,dateAdded,personReference,jobOrder,comments"
+						},
+						{
+							"key": "query",
+							"value": "isDeleted:false"
+						},
+						{
+							"key": "count",
+							"value": "500"
+						},
+						{
+							"key": "start",
+							"value": "0"
+						},
+						{
+							"key": "sort",
+							"value": "externalID"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BH Universal Login",
+			"protocolProfileBehavior": {
+				"followRedirects": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://universal.bullhornstaffing.com/universal-login/session/login?username=blackrock.sixcel.admin&password=Welcome123!",
+					"protocol": "https",
+					"host": [
+						"universal",
+						"bullhornstaffing",
+						"com"
+					],
+					"path": [
+						"universal-login",
+						"session",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "blackrock.sixcel.admin"
+						},
+						{
+							"key": "password",
+							"value": "Welcome123!"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Invoice Template",
+			"protocolProfileBehavior": {
+				"followRedirects": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Sixcel/DataMigrations/Blackrock/Templates/4_TEC_Standard.docx"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://rest99.bullhornstaffing.com/rest-services/7emk10/file/InvoiceStatementTemplate/4/raw?description=TEC Standard&type=Invoice",
+					"protocol": "https",
+					"host": [
+						"rest99",
+						"bullhornstaffing",
+						"com"
+					],
+					"path": [
+						"rest-services",
+						"7emk10",
+						"file",
+						"InvoiceStatementTemplate",
+						"4",
+						"raw"
+					],
+					"query": [
+						{
+							"key": "description",
+							"value": "TEC Standard"
+						},
+						{
+							"key": "type",
+							"value": "Invoice"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Placement",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"dateEnd\" : \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{restUrl}}/entity/Placement/13111?BhRestToken={{BhRestToken}}",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"entity",
+						"Placement",
+						"13111"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "id,firstName,lastName,smsOptIn",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Placement Data",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{restUrl}}/entity/Placement/130649?BhRestToken={{BhRestToken}}&fields=id",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"entity",
+						"Placement",
+						"130649"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "id"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Query Custom Object",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/query/ClientCorporationCustomObjectInstance1?BhRestToken={{BhRestToken}}&where=clientCorporation>0&fields=id,text1,text2,clientCorporation&count=500",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"query",
+						"ClientCorporationCustomObjectInstance1"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "where",
+							"value": "clientCorporation>0"
+						},
+						{
+							"key": "fields",
+							"value": "id,text1,text2,clientCorporation"
+						},
+						{
+							"key": "count",
+							"value": "500"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Query Custom Object Imperiall",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{WebApi}}/{{access_token}}/meta/ClientCorporationCustomObjectInstance2?fields=*",
+					"host": [
+						"{{WebApi}}"
+					],
+					"path": [
+						"{{access_token}}",
+						"meta",
+						"ClientCorporationCustomObjectInstance2"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "*"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Meta Data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/meta/Candidate?BhRestToken={{BhRestToken}}&fields=*",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"meta",
+						"Candidate"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "*"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Companies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/search/ClientCorporation?BhRestToken={{BhRestToken}}&fields=id,name,status,address&query=status:\"Active Account\"&count=500&start=0",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"search",
+						"ClientCorporation"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "id,name,status,address"
+						},
+						{
+							"key": "query",
+							"value": "status:\"Active Account\""
+						},
+						{
+							"key": "count",
+							"value": "500"
+						},
+						{
+							"key": "start",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Query JobSubmissions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/query/JobSubmission?BhRestToken={{BhRestToken}}&where=id>0 AND isDeleted=false&fields=id,jobOrder,candidate,status,isDeleted&count=500&start=0",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"query",
+						"JobSubmission"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "where",
+							"value": "id>0 AND isDeleted=false"
+						},
+						{
+							"key": "fields",
+							"value": "id,jobOrder,candidate,status,isDeleted"
+						},
+						{
+							"key": "count",
+							"value": "500"
+						},
+						{
+							"key": "start",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Placements",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/search/Placement?BhRestToken={{BhRestToken}}&fields=id,commissions&query=id:16706&count=500&start=0",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"search",
+						"Placement"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "id,commissions"
+						},
+						{
+							"key": "query",
+							"value": "id:16706",
+							"description": "externalID:756071 OR externalID:756471"
+						},
+						{
+							"key": "count",
+							"value": "500"
+						},
+						{
+							"key": "start",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Query Locations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/query/Location?BhRestToken={{BhRestToken}}&where=id>0&fields=id,title,clientCorporation,address&count=500&orderBy=id",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"query",
+						"Location"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "where",
+							"value": "id>0"
+						},
+						{
+							"key": "fields",
+							"value": "id,title,clientCorporation,address"
+						},
+						{
+							"key": "count",
+							"value": "500"
+						},
+						{
+							"key": "orderBy",
+							"value": "id"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get PayableCharge Data",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{restUrl}}/entity/PayableCharge/32?BhRestToken={{BhRestToken}}&fields=id,transactionStatus,status",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"entity",
+						"PayableCharge",
+						"32"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "id,transactionStatus,status"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get PayableCharge Status Data",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{restUrl}}/entity/PayableCharge/32?BhRestToken={{BhRestToken}}&fields=id,transactionStatus,status",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"entity",
+						"PayableCharge",
+						"32"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "id,transactionStatus,status"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update PayableCharge",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"dateAdded\" : \"03/09/06 13:44\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{restUrl}}/entity/PayableCharge/32?BhRestToken={{BhRestToken}}",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"entity",
+						"PayableCharge",
+						"32"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "id,firstName,lastName,smsOptIn",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{restUrl}}/meta/PayExportBatch?BhRestToken={{BhRestToken}}&fields=*",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/meta/PayExportBatch?BhRestToken={{BhRestToken}}&fields=*",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"meta",
+						"PayExportBatch"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "*"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get PayableBatchStatus Data",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{restUrl}}/query/PayExportBatch?BhRestToken={{BhRestToken}}&fields=id,batchStatusLookup&where=id=32&count=500",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"query",
+						"PayExportBatch"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "fields",
+							"value": "id,batchStatusLookup"
+						},
+						{
+							"key": "where",
+							"value": "id=32"
+						},
+						{
+							"key": "count",
+							"value": "500"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Query BillableCharge",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/query/BillableCharge?BhRestToken={{BhRestToken}}&where=placement=153484&fields=id,placement,billingProfile&count=500&start=0",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"query",
+						"BillableCharge"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "where",
+							"value": "placement=153484"
+						},
+						{
+							"key": "fields",
+							"value": "id,placement,billingProfile"
+						},
+						{
+							"key": "count",
+							"value": "500"
+						},
+						{
+							"key": "start",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Query Workers Comp",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{restUrl}}/query/WorkersCompensation?BhRestToken={{BhRestToken}}&where=name >= 'TEC' AND name <= 'TEC-Z'&fields=code,description,name&count=500&orderBy=name",
+					"host": [
+						"{{restUrl}}"
+					],
+					"path": [
+						"query",
+						"WorkersCompensation"
+					],
+					"query": [
+						{
+							"key": "BhRestToken",
+							"value": "{{BhRestToken}}"
+						},
+						{
+							"key": "where",
+							"value": "name >= 'TEC' AND name <= 'TEC-Z'"
+						},
+						{
+							"key": "fields",
+							"value": "code,description,name"
+						},
+						{
+							"key": "count",
+							"value": "500"
+						},
+						{
+							"key": "orderBy",
+							"value": "name"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Insert Invoice Template",
+			"protocolProfileBehavior": {
+				"followRedirects": false
+			},
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Sixcel/DataMigrations/Blackrock/Templates/5_KCM_Standard.docx"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://rest99.bullhornstaffing.com/rest-services/7emk10/file/InvoiceStatementTemplate/raw?description=TEC Standard&type=Invoice",
+					"protocol": "https",
+					"host": [
+						"rest99",
+						"bullhornstaffing",
+						"com"
+					],
+					"path": [
+						"rest-services",
+						"7emk10",
+						"file",
+						"InvoiceStatementTemplate",
+						"raw"
+					],
+					"query": [
+						{
+							"key": "description",
+							"value": "TEC Standard"
+						},
+						{
+							"key": "type",
+							"value": "Invoice"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
