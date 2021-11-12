@@ -12,7 +12,7 @@ API.modifyPickerConfig(API.getActiveKey(), {
                             wcObj.data.data.employmentType === 'Fixed Term Contract'
                         )
                     ) {
-                        const searchSupplier = `/search/ClientCorporation?fields=name&query=(customText12:"international" OR customText12:"LTD") OR ( (customText12:"Umbrella" OR customText12:"CIS Umbrella" OR customText12:"2nd Tier" OR customText12:"Consultancy") AND status:Authorized*)&count=500&start=0`
+                        const searchSupplier = `/search/ClientCorporation?fields=name&query=(customText12:"international" OR customText12:"LTD") OR ( (customText12:"Umbrella" OR customText12:"CIS Umbrella" OR customText12:"2nd Tier" OR customText12:"Consultancy") AND status:Authorized*)&count=500&start=0&sort=name`
                         API.appBridge.httpGET(searchSupplier)
                             .then(resp => {
                                 if (resp.data.count > 0) {
@@ -21,7 +21,10 @@ API.modifyPickerConfig(API.getActiveKey(), {
                                     Supplier.forEach((element, index) => {
                                         filteredSupplier.push({ value: `${element.name}`, name: `${element.name} ` })
                                     });
-                                    resolve(filteredSupplier)
+                                    const unique = (value, index, self) => {
+                                        return self.indexOf(value) === index
+                                    }
+                                    resolve(filteredSupplier.filter(unique))
                                     return
                                 }
                                 resolve([]);

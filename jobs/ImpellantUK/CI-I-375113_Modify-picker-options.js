@@ -1,4 +1,15 @@
-
+function getWCCList(array) {
+    var result = "";
+    let grouped = array.reduce((result, current) => {
+        result[current.text1] = result[current.text1] || [];
+        result[current.text1].push(current);
+        return result;
+    }, {});
+    for (const [key, value] of Object.entries(grouped)) {
+        result = result + "," + `'${key}'`;
+    }
+    return result.substring(1, result.length);
+}
 API.modifyPickerConfig(API.getActiveKey(), {
     format: '$value',
     optionsPromise: () => {
@@ -33,3 +44,68 @@ API.modifyPickerConfig(API.getActiveKey(), {
         })
     }
 })
+
+function getWCCList(array) {
+    var result = "";
+    let grouped = array.reduce((result, current) => {
+        result[current.text1] = result[current.text1] || [];
+        result[current.text1].push(current);
+        return result;
+    }, {});
+    for (const [key, value] of Object.entries(grouped)) {
+        result = result + "," + `'${key}'`;
+    }
+    return result.substring(1, result.length);
+}
+
+
+
+API.modifyPickerConfig(API.getActiveKey(), {
+    optionsPromise: function (query) {
+        return new Promise(function (resolve) {
+            if (query && query.length) {
+                var clientCorporationID = API.form.controls.clientCorporation.value.id;
+                var CustomUrl = "/query/ClientCorporationCustomObjectInstance1?fields=id,text1&where=clientCorporation.id=" + clientCorporationID;
+
+                return API.appBridge.httpGET(CustomUrl).then(function (CustomObj) {
+
+
+
+                    var url = "/query/WorkersCompensationRate?fields=id,compensation&where=compensation.name IN (" + getWCCList(CustomObj.data.data) + ") AND compensation.name LIKE " + encodeURIComponent("'%" + query + "%'");
+                    url += '&fields=id,rate,compensation,name,code&count=500';
+                    return API.appBridge.httpGET(url).then(function (response) {
+
+
+
+
+                        var filteredWorkers = [];
+                        for (var i = 0; i < response.data.data.length; i++) {
+
+
+
+                            console.log(response.data.data[i]);
+                            //if (response.data.data[i].compensation.code == "8810") {
+                            var worker = response.data.data[i];
+                            worker.label = response.data.data[i].compensation.name;
+                            filteredWorkers.push(worker);
+                            //}
+                        }
+                        resolve(filteredWorkers);
+
+
+
+
+                    });
+
+
+
+                });
+
+
+
+            } else {
+                resolve([]);
+            }
+        });
+    }
+});
