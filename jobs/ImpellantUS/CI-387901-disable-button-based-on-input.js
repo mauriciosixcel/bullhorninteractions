@@ -6,15 +6,16 @@
 // Event: Add Edit Presave
 
 if (API.currentEntity === 'Candidate') {
-    console.log('API.currentEntityId ', API.currentEntityId)
+    console.log('API.currentEntityId ', form)
     const candidate = `/entity/Candidate/${API.currentEntityId}?fields=employeeType`
     let address1 = form.controls['address'].value.address1
     let address2 = form.controls['address'].value.address2
-    let employeeType = form.controls['employeeType'].value ?? ['empty val']
+    let employeeType = []
+    employeeType.push(form.controls['employeeType'].value)
     let zip = form.controls['address'].value.zip
     let state = form.controls['address'].value.state
-    let fullAddress = address1.concat(' ', address2) ?? ['empty val']
-
+    let fullAddress = address1.concat(' ', address2)
+    console.log('employeeType ', employeeType)
     return new Promise((resolve) => {
         const validateemployeeType = employeeType.find(element => {
             console.log('element ', element)

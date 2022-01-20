@@ -16,6 +16,7 @@ if (API.currentEntityTrack === "Placement2") {
                     const ClientCorporationCustomObjectInstance1 = `/query/ClientCorporationCustomObjectInstance1?where=clientCorporation=${clientCorporationID}&fields=id,date1,text2,text3,date2`
                     API.appBridge.httpGET(ClientCorporationCustomObjectInstance1)
                         .then(resp => {
+                            console.log('ClientCorporationCustomObjectInstance1 resp ', resp);
                             if (resp.data.count > 0) {
                                 resp.data.data.forEach(element => {
                                     const date1 = element.date1
@@ -26,16 +27,23 @@ if (API.currentEntityTrack === "Placement2") {
                                         text2 === 'Approved' &&
                                         (text3 === 'Perm' || text3 === 'Both') &&
                                         date2 !== '')) {
+                                            console.log('data doesnt have to pass credit validatioons ');
                                         resolve(
-                                            form.isFormValid = true,
+                                            form.isFormValid = false,
                                             form.errorMessage = 'Error: Credit and Terms do not meet the minimum requirements for this Placement: '
                                         )
                                         return
                                     }
-                                    resolve(form.isFormValid = false)
+                                    console.log('data pass credit validatioons ');
+                                    resolve(form.isFormValid = true)
+                                    return
                                 });
-
+                                return
                             }
+                            resolve(
+                                form.isFormValid = false,
+                                form.errorMessage = 'Error: Credit and Terms do not meet the minimum requirements for this Placement: '
+                            )
                         })
 
                 } else {

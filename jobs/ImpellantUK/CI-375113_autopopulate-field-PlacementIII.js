@@ -35,8 +35,12 @@ if (API.currentEntityTrack === "Placement3") {
                                     }
                                     resolve(form.isFormValid = true)
                                 });
-
+                                return
                             }
+                            resolve(
+                                form.isFormValid = false,
+                                form.errorMessage = 'Error: Credit and Terms do not meet the minimum requirements for this Placement: '
+                            )
                         })
 
                 } else {

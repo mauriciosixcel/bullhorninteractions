@@ -1,32 +1,75 @@
 if (API.currentEntity === "Placement") {
-    console.log('hereeee ', API.currentEntityId)
-    const placement = `/entity/Placement/${API.currentEntityId}?fields=id,candidate,location,payrollEmployeeType,positionCode,dateBegin,customText60,payGroup,payRate,customText59,billingProfile,benefitGroup,legalBusinessEntity`
+    const placement = `/entity/Placement/${API.currentEntityId}?fields=id,clientCorporation,employmentType,employeeType,candidate,status`
     return new Promise((resolve) => {
-        API.appBridge.httpGET(placement)
+        return API.appBridge.httpGET(placement)
             .then((wcObj) => {
-                console.log('wcObj ', wcObj)
                 if (wcObj.data.data.id > 0 &&
-                    wcObj.data.data.status === 'Placed' &&
-                    (wcObj.data.data.employmentType === 'Contract' ||
-                        wcObj.data.data.employmentType === 'Contract to Hire')
+                    form.controls['status'].value === 'Approved' &&
+                    (wcObj.data.data.employmentType === 'Contract' || wcObj.data.data.employmentType === 'Contract To Hire') &&
+                    wcObj.data.data.employeeType === 'W2'
                 ) {
-                    console.log('here')
-                    // let requiredFields =
-                    //     [
-                    //         'ssn', 'dateOfBirth', 'employeeType', 'address1', 'city', 'state', 'zip', 'countryID', 'federalFilingStatus', 'federalExemptions', 'twoJobs', 'locationID', 'payrollEmployeeType', 'positionCode', 'dateBegin', 'payrollSyncStatusLookupID', 'customText60', 'payGroup', 'payGroup', 'customText59', 'billingProfileID', 'benefitGroup', 'legalBusinessEntityID'
-                    //     ]
-                    // let filledFields = requiredFields.filter(field => form.controls[field].value === '')
-                    // if (filledFields.length > 0) {
-                    //     const errorFields = filledFields.map(field => form.field[field].label).toString()
-                    //     form.errorMessage = `Integration Validation: Please Update the following fields [ ${errorFields} ] `,
-                    //     form.isFormValid = false
-                    //     resolve(form)
-                    //     return
-                    // }
-                    // form.isFormValid = true
-                    // resolve(form)
-                    // return
+                    let requiredPlacementFields =
+                        [
+                            'payrollEmployeeType', 'positionCode', 'dateBegin', 'payrollSyncStatus', 'customText60', 'payGroup', 'customText59', 'benefitGroup', 'legalBusinessEntity'
+                        ]
+                    let filledPlacementFields = requiredPlacementFields.filter(field => (form.controls[field].value === '' || form.controls[field].value === null))
+
+                    if (filledPlacementFields.length > 0) {
+                        const errorPlacementFields = filledPlacementFields.map(field => ` ${form.controls[field].label} `).toString()
+                        form.errorMessage = `Integration Validation: Please Update the following fields [ ${errorPlacementFields} ] on  'Placement'  entity `,
+                            form.isFormValid = false
+                        resolve(form)
+                        return
+                    }
+                    //Query to candidate entity
+                    const candidateEntity = `/entity/Candidate/${wcObj.data.data.candidate.id}?fields=id,ssn,dateOfBirth,employeeType,address,federalFilingStatus,totalDependentClaimAmount,twoJobs`
+                    return API.appBridge.httpGET(candidateEntity)
+                        .then(candObj => {
+                            if (candObj.data.data.id > 0) {
+                                let candidateData = candObj.data.data
+                                let errorFieldsArray = []
+                                let requiredFields =
+                                    [
+                                        { name: 'ssn', label: 'SSN' },
+                                        { name: 'dateOfBirth', label: 'Date of Birth' },
+                                        { name: 'employeeType', label: 'Employee Type' },
+                                        { name: 'federalFilingStatus', label: 'Federal Filing Status' },
+                                        { name: 'totalDependentClaimAmount', label: 'Total Dependent Claim Amount' },
+                                        { name: 'twoJobs', label: 'Two Jobs' }
+                                    ]
+                                let addressRequiredFields =
+                                    [
+                                        { name: 'address1', label: 'Address' },
+                                        { name: 'city', label: 'city' },
+                                        { name: 'state', label: 'state' },
+                                        { name: 'countryID', label: 'country' },
+                                    ]                                
+
+                                let filledFields = requiredFields.filter(element => (candidateData[element.name] === '' || candidateData[element.name] === ' ' || candidateData[element.name] === null || candidateData[element.name] === undefined))
+                                let filledAddressFields = addressRequiredFields.filter(field => (candidateData.address[field.name] === '' || candidateData.address[field.name] === null || candidateData.address[field.name] === undefined))
+                                errorFieldsArray = filledFields.concat(filledAddressFields)
+
+                                if (errorFieldsArray.length > 0) {
+
+                                    form.errorMessage = `Integration Validation: Please Update the following fields [ ${errorFieldsArray.map(el=>el.label).toString()} ] on  'Candidate'  entity `,
+                                        form.isFormValid = false
+                                    resolve(form)
+                                    return
+                                }
+                                form.isFormValid = true
+                                resolve(form)
+                                return
+                            }
+                            form.errorMessage = `No Candidate data found`,
+                                form.isFormValid = false
+                            resolve(form)
+                            return
+                        })
+                    return
                 }
+                form.isFormValid = true
+                resolve(form)
+                return
             })
     })
 }
