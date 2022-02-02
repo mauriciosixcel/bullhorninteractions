@@ -152,7 +152,7 @@ if (API.currentEntity === 'Placement') {
             .catch(err => {
                 console.log("error while getting Placement data", err);
             });
-    }
+    } 
 }
 
 // I-408405: Customization Interaction: Location Export Status

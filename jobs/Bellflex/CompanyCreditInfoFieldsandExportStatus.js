@@ -26,3 +26,4 @@ const customText12 = API.form.controls.customText12.value
 if (userTypeName.includes('Pay Bill Super User') && customText12 === "Exported") {
     API.setValue('customText12', 'Ready to Export')
 }
+ 

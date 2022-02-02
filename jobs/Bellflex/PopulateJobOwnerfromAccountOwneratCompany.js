@@ -11,3 +11,4 @@ if (userTypeName.includes('Pay Bill Super User') && customText12 === "Exported")
     API.setValue('customText12', 'Ready to Export')
 }
 
+ 
