@@ -1,13 +1,12 @@
-// I-388501: IMPNA Customization - Validate Location Entity ZIP Code for Prism Integration
-// Name: IMPNA Customization - Validate Location Entity ZIP Code for Prism Integration
-// Type: Start/End Date Automation
-// Entity/Tracks: Location
-// Fields: zip
-// Event: Add Edit Presave
+// I-408404: Customization Interaction: Company Export Status
+// Name: Belflex Customization - Company Export Status
+// Entity/Tracks: Company
+// Fields: customText15
+// Event: FI on init
 
 console.log('Mauricio - Company Export Status ', API);
-const userTypeId = API._globals.user.userTypeId
-if (userTypeId !== 115775) {
+const userTypeName = API._globals.user.userTypeName
+if (userTypeName.includes('Pay Bill')) {
     API.setReadOnly('customText15', true)
 }
 
@@ -48,9 +47,17 @@ if (API.currentEntity === 'Placement') {
     }
 }
 
+
+// I-408404: Customization Interaction: Company Export Status
+// Name: Belflex Customization - Company Export Status
+// Entity/Tracks: Company
+// Fields: customText15
+// Event: FI on init
 console.log('Mauricio - Company Export Status ', API);
-const customText15 = API.form.controls['customText15'].value
-if (customText15 === "Exported") {
-    API.setValue('customText15', 'Ready to Export')
-}
+API.getControl('address').valueChanges.subscribe(() => {
+    if (API.form.controls['customText15'].value === 'Exported') {
+        API.setValue('customText15', "Ready to Export")
+    }
+});
+
 
