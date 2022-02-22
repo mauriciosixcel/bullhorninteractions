@@ -13,7 +13,7 @@ if (API.currentEntity === "JobOrder") {
 
                     resp.data.data.every(element => {
                         const date1 = element.date1
-                        const text3 = element.text3 // array -> make a filter
+                        const text3 = element.text3 || [''] // array -> make a filter
                         const text2 = element.text2
                         //text3 = Perm IF job.employmentType=Perm Or text3 = Temp IF job.employmentType = Temp          
                         console.log(date1 < startDate);               
@@ -35,7 +35,7 @@ if (API.currentEntity === "JobOrder") {
                             return false
                         } else {
                             const ClientCorporationCustomObjectInstance6 = `/query/ClientCorporationCustomObjectInstance6?where=clientCorporation=${clientCorporation}&fields=id,date2`
-                            API.appBridge.httpGET(ClientCorporationCustomObjectInstance6)
+                            return API.appBridge.httpGET(ClientCorporationCustomObjectInstance6)
                                 .then(res => {
                                     console.log('res.data.count ', res)
                                     if (res.data.count > 0) {
