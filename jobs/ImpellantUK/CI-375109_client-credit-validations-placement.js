@@ -44,7 +44,7 @@ if (API.currentEntity === "Placement") {
                                                     res.data.data.forEach(el => {
                                                         const date2 = el.date2 // moved to ClientCorporationCustomObjectInstance6
                                                         console.log('date2 ===', date2)
-                                                        if (date2 === '') {
+                                                        if (date2 === '' || date2 === null) {
                                                             console.log('something heree')
                                                             resolve(
                                                                 form.isFormValid = false,

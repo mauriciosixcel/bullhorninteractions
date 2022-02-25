@@ -13,7 +13,7 @@ if (API.currentEntity === "JobOrder") {
 
                     resp.data.data.every(element => {
                         const date1 = element.date1
-                        const text3 = element.text3 || [''] // array -> make a filter
+                        const text3 = element.text3 || ['null'] // array -> make a filter
                         const text2 = element.text2
                         //text3 = Perm IF job.employmentType=Perm Or text3 = Temp IF job.employmentType = Temp          
                         console.log(date1 < startDate);               
@@ -25,7 +25,7 @@ if (API.currentEntity === "JobOrder") {
                                        
                         console.log(text2 !== 'Approved');               
                         if (date1 < startDate ||
-                            text3.filter(el => employmentType.includes(el)).length < 0 ||
+                            text3.filter(el => employmentType.includes(el)).length <= 0 ||
                             text2 !== 'Approved') {
                             console.log('1');
                             resolve(API.promptUser({

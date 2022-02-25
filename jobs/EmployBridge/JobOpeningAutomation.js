@@ -5,11 +5,9 @@
 // Event: Fi –On init
 
 console.log('SWE-128:  Job Opening Automation ', API);
-const customInt4 = API.form.controls['customInt4'].value
-const customInt2 = API.form.controls['customInt2'].value
-console.log('customInt2 ', customInt2)
-if (customInt2 === null || customInt2 === '')
-    API.setValue('customInt2', customInt4)
+const customInt4 = Number(API.form.controls['customInt4'].value)
+const customInt2 = Number(API.form.controls['customInt2'].value)
+API.setValue('customInt2', customInt4)
 
 
 // SWE-128:  Job Opening Automation
@@ -116,7 +114,7 @@ if (API.currentEntity === "Placement") {
                     "status": 'Placed'
                 }
                 return API.appBridge.httpPOST(UpdateJobOrderData, Obj)
-                    .then(resp => {}).catch(err => {
+                    .then(resp => { }).catch(err => {
                         console.log("error while updating the JobOrder data", err);
                     });
             }
