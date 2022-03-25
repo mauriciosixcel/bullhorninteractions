@@ -4,10 +4,12 @@
 // Fields: customInt4, customInt2
 // Event: Fi –On init
 
-console.log('SWE-128:  Job Opening Automation ', API);
-const customInt4 = Number(API.form.controls['customInt4'].value)
-const customInt2 = Number(API.form.controls['customInt2'].value)
-API.setValue('customInt2', customInt4)
+    console.log('SWE-128:  Job Opening Automation ', API);
+    const customInt4 = Number(API.form.controls['customInt4'].value)
+    const customInt2 = Number(API.form.controls['customInt2'].value)
+    console.log('numOpenings ', numOpenings);
+    API.setValue('numOpenings', customInt4)
+    API.setValue('customInt2', customInt4)
 
 
 // SWE-128:  Job Opening Automation
@@ -15,6 +17,7 @@ API.setValue('customInt2', customInt4)
 // Entity/Tracks:  ClientCompany
 // Fields: customInt4, customInt2
 // Event: Fi –On change
+
 
 console.log('SWE-128:  Job Opening Automation ', API);
 const customInt4 = Number(API.form.controls['customInt4'].value)
@@ -26,9 +29,14 @@ if (customInt2 < customInt4) {
     customText8.required = true;
 } else if (customInt2 === customInt4) {
     customText8.hidden = true;
+    customText8.removeTooltipArrow = true
 } else {
     customText8.hidden = true;
     API.markAsInvalid(API.getActiveKey(), '# Committed cannot exceed Total Client Need');
+}
+
+if (API.form.controls['customText8'].value === '') {
+    API.markAsInvalid('customText8', 'Cannot be blank');
 }
 
 // SWE-128:  Job Opening Automation
@@ -54,16 +62,19 @@ if (modalView === 'vertical' && tittle.innerText.includes('Move 1 to Assignment'
     const elems = document.body.getElementsByTagName('div');
 
     for (let i = 0; i < elems.length; i++) {
+        console.log('suuuuuuuuuuuupppppppppppppp');
         if (elems[i].getAttribute('data-automation-id') === 'id') {
-
+            
             //get the element child by class
             const valuElem = elems[i].getElementsByClassName('value');
 
             //get the value to number
             let valueId = parseInt(valuElem[0].innerText);
+            console.log('valueId ', valueId);
             const jobEndpoint = `/entity/JobOrder/${valueId}?fields=id,numOpenings`
             API.appBridge.httpGET(jobEndpoint)
                 .then(resp => {
+                    console.log('jobOrder data ', resp.data.data.id)
                     if (resp.data.data.id > 0) {
 
                         const divContainer = document.body.getElementsByClassName('tile-container')[1];
@@ -76,8 +87,9 @@ if (modalView === 'vertical' && tittle.innerText.includes('Move 1 to Assignment'
                             let inputCheckAdding = adding.getElementsByTagName('input');
                             inputCheckAdding[0].click();
                         };
+                        console.log('resp.data.data.numOpening ', resp.data.data.numOpenings);
 
-                        if (resp.data.data.numOpening <= 1) {
+                        if (resp.data.data.numOpenings <= 1) {
                             //Set "Would you like to close this job to YES"
                             clickOnInput(jobCloseYes);
                         } else {
@@ -89,6 +101,7 @@ if (modalView === 'vertical' && tittle.innerText.includes('Move 1 to Assignment'
         }
     }
 }
+
 
 // SWE-128:  Job Opening Automation
 // Name: Belflex Customization: Populate Job Owner from Account Owner at Company
@@ -106,13 +119,17 @@ if (API.currentEntity === "Placement") {
             if (wcObj.data.count > 0) {
                 let numOpenings = wcObj.data.data[0].numOpenings
                 const UpdateJobOrderData = `/entity/JobOrder/${wcObj.data.data[0].id}`;
+
                 let Obj = numOpenings - 1 > 0 ? {
                     "isOpen": true,
-                    "status": 'Partially Placed'
+                    "status": 'Partially Placed',
+                    "numOpenings": numOpenings - 1
                 } : {
                     "isOpen": false,
-                    "status": 'Placed'
+                    "status": 'Placed',
+                    "numOpenings": 0
                 }
+
                 return API.appBridge.httpPOST(UpdateJobOrderData, Obj)
                     .then(resp => { }).catch(err => {
                         console.log("error while updating the JobOrder data", err);
