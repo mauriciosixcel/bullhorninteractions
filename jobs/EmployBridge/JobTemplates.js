@@ -73,18 +73,13 @@ API.appBridge.httpGET(searchJobTemplates)
     });
 
 //Create a Field Interaction On Init on Text9 (ClientCorporationCustomObjectInstance7) to default the drop-down value of Text9 to clientCorporationID.customText6.
-console.log('custom interaction text12 ',API)
-const searchJobTemplates = `/query/ClientCorporationCustomObjectInstance3?fields=id,text4&where=clientCorporation=${API.form.associations.clientCorporation.id}`
+console.log('custom interaction text6 ',API)
+const searchJobTemplates = `/entity/ClientCorporation/${API.form.associations.clientCorporation.id}?fields=customText6`
 API.appBridge.httpGET(searchJobTemplates)
     .then(resp => {
-        if (resp.data.count > 0) {
-            var contacts = resp.data.data;
-            var filteredcontacts_1 = [];
-            contacts.forEach(element => {
-                filteredcontacts_1.push(element.text1);
-            });
-            let elem = API.form.controls['text12'];
+        if (resp.data.data.customText6) {
+            let elem = API.form.controls['text6'];
             elem.controlType = "select";
-            elem.options = filteredcontacts_1;
+            elem.options = resp.data.data.customText6;
         }
     });
