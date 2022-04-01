@@ -20,23 +20,30 @@ if (clientID) {
         });
 }
 // 3.1.3.2 PRevent duplicate names when create Job codes ClientCorporationCustomObjectInstance7
-if (API.currentEntity === "ClientCorporationCustomObjectInstance7" && form.currentEntityId === null) {
+if (API.currentEntity === "ClientCorporationCustomObjectInstance7" && API.currentEntityId === null) {
     return new Promise((resolve) => {
         const searchJobTemplates = `/query/ClientCorporationCustomObjectInstance7?fields=id,text1&where=clientCorporation=${form.data.clientCorporation.id}`
         return API.appBridge.httpGET(searchJobTemplates)
             .then(resp => {
                 if (resp.data.count > 0) {
                     var contacts = resp.data.data;
-                    contacts.forEach(element => {
+                    console.log('contacts ', contacts);
+                    const matches = contacts.filter(element => {
+                        console.log('element ', element.text1, ' form.controls.text1.value ', form.controls.text1.value, element.text1 === form.controls.text1.value);
                         if (element.text1 === form.controls.text1.value) {
-                            form.errorMessage = `A record already exists for this Job Code on this Account `,
-                                form.isFormValid = false
-                            resolve(form)
+                            return element
                         }
-                    });
+                    })
+                    console.log('matches ', matches);
+                    if (matches) {
+                        form.errorMessage = `A record already exists for this Job Code on this Account `,
+                        form.isFormValid = false
+                        resolve(form)
+                    }else
+                        resolve([])
+                }else
                     resolve([])
-                }
-                resolve([])
+                
             });
     })
 }
@@ -194,3 +201,5 @@ if (customInt2 < customInt4) {
 if (API.form.controls['customText8'].value === '') {
     API.markAsInvalid('customText8', 'Cannot be blank');
 }
+
+
