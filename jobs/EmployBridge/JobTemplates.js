@@ -27,16 +27,14 @@ if (API.currentEntity === "ClientCorporationCustomObjectInstance7" && API.curren
             .then(resp => {
                 if (resp.data.count > 0) {
                     var contacts = resp.data.data;
-                    console.log('contacts ', contacts);
                     const matches = contacts.filter(element => {
-                        console.log('element ', element.text1, ' form.controls.text1.value ', form.controls.text1.value, element.text1 === form.controls.text1.value);
                         if (element.text1 === form.controls.text1.value) {
                             return element
                         }
                     })
                     console.log('matches ', matches);
                     if (matches) {
-                        form.errorMessage = `A record already exists for this Job Code on this Account `,
+                        form.errorMessage = 'A record already exists for this Job Template Name on this Account',
                         form.isFormValid = false
                         resolve(form)
                     }else
@@ -174,32 +172,13 @@ API.appBridge.httpGET(searchJobTemplates)
         }
     });
 
+//3.1.3.6 Create a Field Interaction On Init on Text4 (ClientCorporationCustomObjectInstance7) to modify the control and set default value on Text4. Query the parentCategory.name from the Specialty record where specialty.name = Text2.
+    return API.appBridge.httpGET(`query/Category?fields=id,name,specialties&where=specialties.name='${API.form.controls.text2.value}'`)
+    .then(respObj => {
 
-// SWE-128:  Job Opening Automation
-// Name: Belflex Customization: Populate Job Owner from Account Owner at Company
-// Entity/Tracks:  ClientCompany
-// Fields: customInt4, customInt2
-// Event: Fi –On change
+        if (respObj.data.count > 0) {
+            let dataCategories = respObj.data.data[0]
+            API.setValue('text4', dataCategories.name)
+        }
 
-
-console.log('SWE-128:  Job Opening Automation ', API);
-const customInt4 = Number(API.form.controls['customInt4'].value)
-const customInt2 = Number(API.form.controls['customInt2'].value)
-const customText8 = API.form.controls.customText8;
-if (customInt2 < customInt4) {
-    console.log('holaaaa');
-    customText8.hidden = false;
-    customText8.required = true;
-} else if (customInt2 === customInt4) {
-    customText8.hidden = true;
-    customText8.removeTooltipArrow = true
-} else {
-    customText8.hidden = true;
-    API.markAsInvalid(API.getActiveKey(), '# Committed cannot exceed Total Client Need');
-}
-
-if (API.form.controls['customText8'].value === '') {
-    API.markAsInvalid('customText8', 'Cannot be blank');
-}
-
-
+    })

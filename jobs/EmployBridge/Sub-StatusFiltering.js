@@ -15,7 +15,7 @@ return API.appBridge.httpGET(metaCandidate)
         let filteredCustomText34 = []
         customText34.forEach(element => {
             if (element.value === status)
-                filteredCustomText34.push({ value: element.value, label: element.label })
+                filteredCustomText34.push({ value: element.label, label: element.label })
         });
         if (filteredCustomText34.length > 0) {
             API.form.controls['customText20'].options = filteredCustomText34
@@ -30,8 +30,10 @@ return API.appBridge.httpGET(metaCandidate)
 // Fields: customText20
 // Event: PI – Modify overview fields
 
-if (field.name === "customText20")
+
+if (field.name === "customText20" || field.name === 'status')
     field.disabled = true
+
 
 
 // 235- Status/Sub-Status Filtering

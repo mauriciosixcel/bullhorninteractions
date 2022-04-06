@@ -1,19 +1,17 @@
 // SWE-128:  Job Opening Automation
-// Name: Belflex Customization: Populate Job Owner from Account Owner at Company
+// Name: EmployeBridge Customization: Populate Job Owner from Account Owner at Company
 // Entity/Tracks:  ClientCompany
 // Fields: customInt4, customInt2
 // Event: Fi –On init
 
     console.log('SWE-128:  Job Opening Automation ', API);
-    const customInt4 = Number(API.form.controls['customInt4'].value)
     const customInt2 = Number(API.form.controls['customInt2'].value)
-    console.log('numOpenings ', numOpenings);
-    API.setValue('numOpenings', customInt4)
-    API.setValue('customInt2', customInt4)
+    
+    API.setValue('numOpenings', customInt2)
 
 
 // SWE-128:  Job Opening Automation
-// Name: Belflex Customization: Populate Job Owner from Account Owner at Company
+// Name: EmployeBridge Customization: Populate Job Owner from Account Owner at Company
 // Entity/Tracks:  ClientCompany
 // Fields: customInt4, customInt2
 // Event: Fi –On change
@@ -40,7 +38,7 @@ if (API.form.controls['customText8'].value === '') {
 }
 
 // SWE-128:  Job Opening Automation
-// Name: Belflex Customization: Populate Job Owner from Account Owner at Company
+// Name: EmployeBridge Customization: Populate Job Owner from Account Owner at Company
 // Entity/Tracks:  ClientCompany
 // Fields: customInt4, customInt2
 // Event: Fi –On change
@@ -104,7 +102,7 @@ if (modalView === 'vertical' && tittle.innerText.includes('Move 1 to Assignment'
 
 
 // SWE-128:  Job Opening Automation
-// Name: Belflex Customization: Populate Job Owner from Account Owner at Company
+// Name: EmployeBridge Customization: Populate Job Owner from Account Owner at Company
 // Entity/Tracks:  ClientCompany
 // Fields: customInt4, customInt2
 // Event: Fi –On change
