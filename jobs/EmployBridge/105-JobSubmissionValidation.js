@@ -9,7 +9,7 @@ if (API.currentEntity === "JobSubmission") {
                 if (candObj.data.data) {
                     console.log(candObj.data.data.customText20, ' candidate ', (candObj.data.data.customText20 === 'Available' || candObj.data.data.customText20 === 'Assigned'));
                     if ((candObj.data.data.status !== 'Associate' || 
-                         candObj.data.data.status !== 'Candidate') &&
+                         candObj.data.data.status !== 'Candidate') ||
                         candObj.data.data.customText20 !== 'Unavailable') {
                         form.errorMessage = `Candidate status is not valid for Submission: ${candObj.data.data.status}` ,
                             form.isFormValid = false

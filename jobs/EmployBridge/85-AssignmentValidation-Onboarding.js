@@ -37,7 +37,7 @@ if (API.currentEntity === "Placement") {
                      return API.appBridge.httpGET(CandidateCertificationRequirement)
                          .then(wcObj => {
                              console.log('PlacementCertification query ', wcObj.data.data);
-                            if (wcObj.data.count > 0) {
+                            if (wcObj.data.count > 0 ) {
                                 const certifications = []
                                 wcObj.data.data.forEach(element => {
                                     if (element.userCertificationStatus !== 'Active' && form.controls.status !== 'Assigned') {
@@ -45,7 +45,7 @@ if (API.currentEntity === "Placement") {
                                     }
                                 });
                                 console.log('supppppppppppp certtttttttt ', certifications);
-                                if (certifications.length > 0) {
+                                if (certifications.length > 0 && form.controls.status.value === 'Assigned') {
                                     form.errorMessage = `Onboarding Validation: The following fields [ ${certifications.map(el => el.name).toString()} ] must be Active before Assignment is approved.`,
                                         form.isFormValid = false
                                     resolve(form)
@@ -53,7 +53,7 @@ if (API.currentEntity === "Placement") {
                                     const rateCardQuery = `/query/PlacementRateCard?where=placement=${API.currentEntityId}&fields=id,effectiveDate&orderBy=effectiveDate`
                                     return API.appBridge.httpGET(rateCardQuery)
                                         .then((rcObj) => {
-                                            if (rcObj.data.count > 0) {
+                                            if (rcObj.data.count > 0  && form.controls.status.values === 'Assigned') {
                                                 console.log('ssssdsddsd ', rcObj);
                                                 rcObj.data.data.forEach(element => {
                                                     console.log('new Date(element.effectiveDate).getTime() ', new Date(element.effectiveDate).getTime());
@@ -62,6 +62,7 @@ if (API.currentEntity === "Placement") {
                                                         form.errorMessage = `PlacementRateCard is required. `,
                                                             form.isFormValid = false
                                                         resolve(form)
+                                                        return
                                                     } else {
                                                         async function getNumberofPlacement(jobId) {
                                                             console.log('holaaa ', jobId);
@@ -135,7 +136,7 @@ if (API.currentEntity === "Placement") {
                                                                                 }
                                                                             });
                                                                             console.log('supppppppppppp PlacementCertification ', certification);
-                                                                            if (certification.length > 0) {
+                                                                            if (certification.length > 0 && form.controls.status.value === 'Assigned' ) {
                                                                                 console.log('the problem is in the line below');
                                                                                 form.errorMessage = `Onboarding Validation: The following fields [ ${certification.map(el => ` ${el.name} `).toString()} ] must be Active before Assignment is approved.`,
                                                                                     form.isFormValid = false
@@ -158,7 +159,7 @@ if (API.currentEntity === "Placement") {
                             }
                          })
                          .catch(err => console.log('Error while retrieving placementCertificartion records'))
-                }
+                 }
 
 
 

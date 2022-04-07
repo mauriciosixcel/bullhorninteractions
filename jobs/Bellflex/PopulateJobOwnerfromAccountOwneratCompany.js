@@ -9,7 +9,7 @@ const getCompany = `/entity/ClientCorporation/${clientID}?fields=id,customText10
 return API.appBridge.httpGET(getCompany)
     .then(resp => {
         if (resp.data.data.customText10 !== '') {
-            API.setValue('owner', resp.data.data.customText10)
+            API.setValue('owner', {id: resp.data.data.id, label: resp.data.data.customText10})
         }
     })
     .catch(err => console.log(err))
