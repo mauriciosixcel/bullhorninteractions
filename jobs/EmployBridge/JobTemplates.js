@@ -32,16 +32,15 @@ if (API.currentEntity === "ClientCorporationCustomObjectInstance7" && API.curren
                             return element
                         }
                     })
-                    console.log('matches ', matches);
-                    if (matches) {
+                    if (matches.length > 0) {
                         form.errorMessage = 'A record already exists for this Job Template Name on this Account',
-                        form.isFormValid = false
+                            form.isFormValid = false
                         resolve(form)
-                    }else
+                    } else
                         resolve([])
-                }else
+                } else
                     resolve([])
-                
+
             });
     })
 }
@@ -145,35 +144,27 @@ API.appBridge.httpGET(searchJobTemplates)
             API.setValue('customText20', filteredJobTemplate.text11)
             API.setValue('title', filteredJobTemplate.text2)
             API.setValue('customText13', filteredJobTemplate.clientCorporation.customText5)
+            if (filteredJobTemplate.text4 !== null) {
+                API.setValue('categories', filteredJobTemplate.text4)
+            }
             filteredJobTemplate.text5?.forEach(element => {
                 return API.appBridge.httpGET(`query/Skill?fields=id,name&where=name='${element}'`)
                     .then(respObj => {
 
                         if (respObj.data.count > 0) {
                             let dataSkill = respObj.data.data[0]
-
+                            console.log('heyyyyyyyyy ', { id: dataSkill.id, name: dataSkill.name });
                             skills.push({ id: dataSkill.id, name: dataSkill.name });
                         }
                         API.setValue('skills', skills)
                     })
 
             });
-            if (filteredJobTemplate.text4 !== null) {
-                return API.appBridge.httpGET(`query/Category?fields=id,name,specialties&where=specialties.name='${filteredJobTemplate.text4}'`)
-                    .then(respObj => {
-
-                        if (respObj.data.count > 0) {
-                            let dataCategories = respObj.data.data[0]
-                            API.setValue('categories', dataCategories.name)
-                        }
-
-                    })
-            }
         }
     });
 
 //3.1.3.6 Create a Field Interaction On Init on Text4 (ClientCorporationCustomObjectInstance7) to modify the control and set default value on Text4. Query the parentCategory.name from the Specialty record where specialty.name = Text2.
-    return API.appBridge.httpGET(`query/Category?fields=id,name,specialties&where=specialties.name='${API.form.controls.text2.value}'`)
+return API.appBridge.httpGET(`query/Category?fields=id,name,specialties&where=specialties.name='${API.form.controls.text2.value}'`)
     .then(respObj => {
 
         if (respObj.data.count > 0) {

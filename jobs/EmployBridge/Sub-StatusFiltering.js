@@ -45,7 +45,7 @@ if (field.name === "customText20" || field.name === 'status')
 console.log('Mauricio - Status/Sub-Status Filtering remove items ', API)
 const userTypeName = API._globals.user.userTypeName
 let talentStatus = API.form.controls.status.options
-if ((userTypeName.includes('Admin') || userTypeName.includes('HR'))) {
+if (!(userTypeName.includes('Admin') || userTypeName.includes('HR'))) {
     API.form.controls['status'].options = deleteStatus(['Candidate', 'Associate', 'Do Not Use - Adjudication'])
 }
 
