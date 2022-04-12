@@ -40,12 +40,12 @@ if (API.currentEntity === "Placement") {
                             if (wcObj.data.count > 0 ) {
                                 const certifications = []
                                 wcObj.data.data.forEach(element => {
-                                    if (element.userCertificationStatus !== 'Active' && form.controls.status !== 'Assigned') {
+                                    if (element.userCertificationStatus !== 'Active' && form.controls.status === 'Approved') {
                                         certifications.push(element.certification);
                                     }
                                 });
                                 console.log('supppppppppppp certtttttttt ', certifications);
-                                if (certifications.length > 0 && form.controls.status.value === 'Assigned') {
+                                if (certifications.length > 0 && form.controls.status.value === 'Approved') {
                                     form.errorMessage = `Onboarding Validation: The following fields [ ${certifications.map(el => el.name).toString()} ] must be Active before Assignment is approved.`,
                                         form.isFormValid = false
                                     resolve(form)
@@ -53,7 +53,7 @@ if (API.currentEntity === "Placement") {
                                     const rateCardQuery = `/query/PlacementRateCard?where=placement=${API.currentEntityId}&fields=id,effectiveDate&orderBy=effectiveDate`
                                     return API.appBridge.httpGET(rateCardQuery)
                                         .then((rcObj) => {
-                                            if (rcObj.data.count > 0  && form.controls.status.values === 'Assigned') {
+                                            if (rcObj.data.count > 0  && form.controls.status.values === 'Approved') {
                                                 console.log('ssssdsddsd ', rcObj);
                                                 rcObj.data.data.forEach(element => {
                                                     console.log('new Date(element.effectiveDate).getTime() ', new Date(element.effectiveDate).getTime());
@@ -76,9 +76,9 @@ if (API.currentEntity === "Placement") {
                                                                 console.log('candidate ', candObj.data.data);
                 
                                                                 if (candObj.data.data.id > 0) {
-                                                                    // console.log(candObj.data.data.candidate.customText20, ' candidate ', (candObj.data.data.candidate.customText20 === 'Available' || candObj.data.data.candidate.customText20 === 'Assigned'));
+                                                                    // console.log(candObj.data.data.candidate.customText20, ' candidate ', (candObj.data.data.candidate.customText20 === 'Available' || candObj.data.data.candidate.customText20 === 'Approved'));
                                                                     if (candObj.data.data.candidate.status !== 'Associate' ||
-                                                                        !(candObj.data.data.candidate.customText20 === 'Available' || candObj.data.data.candidate.customText20 === 'Assigned')) {
+                                                                        !(candObj.data.data.candidate.customText20 === 'Available' || candObj.data.data.candidate.customText20 === 'Approved')) {
                                                                         form.errorMessage = 'Candidate status is not valid for Assignment',
                                                                             form.isFormValid = false
                                                                         resolve(form)
@@ -135,16 +135,15 @@ if (API.currentEntity === "Placement") {
                                                                                     certification.push(element.certification);
                                                                                 }
                                                                             });
-                                                                            console.log('supppppppppppp PlacementCertification ', certification);
-                                                                            if (certification.length > 0 && form.controls.status.value === 'Assigned' ) {
+                                                                            console.log('supppppppppppp PlacementCertification ', certification.length, 'form.controls.status.value ', form.controls.status.value);
+                                                                            if (certification.length > 0 && form.controls.status.value === 'Approved' ) {
                                                                                 console.log('the problem is in the line below');
                                                                                 form.errorMessage = `Onboarding Validation: The following fields [ ${certification.map(el => ` ${el.name} `).toString()} ] must be Active before Assignment is approved.`,
                                                                                     form.isFormValid = false
                                                                                 resolve(form)
                                                                             }else{
                                                                                 console.log('passsssssssssss');
-                                                                                form.isFormValid = false
-                                                                                resolve(form)
+                                                                                resolve([])
                                                                             }
                                                                         }
                                                                     })

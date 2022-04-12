@@ -6,6 +6,11 @@
 
 const clientID = API.form.controls.clientCorporation.value.id
 const getCompany = `/entity/ClientCorporation/${clientID}?fields=id,customText10`
+const userTypeName = API._globals.user.userTypeName
+console.log('userTypeName ', userTypeName);
+if ((userTypeName === 'Belflex Staffing Network BH1 Standard User')) {
+    API.setReadOnly('owner', true)
+}
 return API.appBridge.httpGET(getCompany)
     .then(resp => {
         if (resp.data.data.customText10 !== '') {

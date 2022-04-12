@@ -24,6 +24,24 @@ API.http.get(getCompanybyProfileId)
                 case '40':
                     API.setValue('customText1', 'Lorien');
                     break;
+                case '41':
+                    API.setValue('customText1', 'Lorien');
+                    break;
+                case '42':
+                    API.setValue('customText1', 'Lorien');
+                    break;
+                case '43':
+                    API.setValue('customText1', 'Lorien');
+                    break;
+                case '44':
+                    API.setValue('customText1', 'Lorien');
+                    break;
+                case '45':
+                    API.setValue('customText1', 'Lorien');
+                    break;
+                case '46':
+                    API.setValue('customText1', 'Lorien');
+                    break;
                 case '50':
                     API.setValue('customText1', 'SRG');
                     break;
