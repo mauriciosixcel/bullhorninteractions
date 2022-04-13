@@ -29,10 +29,13 @@ if (API.currentEntity === "Placement") {
         .then(candidateObj => {
             console.log(candidateObj.data.data.candidate.id);
             if (candidateObj.data.data.candidate.id > 0) {
-                getCandidateCertificationRequirement(candidateObj.data.data.candidate.id, form.controls.status.value)
-                getPlacementRateCard(API.currentEntityId, form.controls.status.value)
-                return Promise.resolve(getPlacement(API.currentEntityId, form.controls.status.value),getCandidateCertificationRequirement(API.currentEntityId, form.controls.status.value))
-            
+
+                return Promise.resolve(
+                    getPlacement(API.currentEntityId, form.controls.status.value),
+                    getCandidateCertificationRequirement(API.currentEntityId, form.controls.status.value),
+                    getPlacementRateCard(API.currentEntityId, form.controls.status.value),
+                    getPlacementCertification(API.currentEntityId, form.controls.status.value))
+
             }
         });
 }
@@ -41,7 +44,7 @@ if (API.currentEntity === "Placement") {
 
 function getPlacementCertification(id, status) {
     console.log('getPlacementCertification called ', id, status);
-    return new Promise((resolve) => {
+    
         const PlacementCertification = `/query/PlacementCertification?fields=id,candidateCertificationStatus,certification&where=placement.id=${id}`
         return API.appBridge.httpGET(PlacementCertification)
             .then((PlacementCertificationObj) => {
@@ -58,20 +61,18 @@ function getPlacementCertification(id, status) {
                         console.log('the problem is in the line below');
                         form.errorMessage = `Onboarding Validation: The following fields [ ${certification.map(el => ` ${el.name} `).toString()} ] must be Active before Assignment is approved.`,
                             form.isFormValid = false
-                        resolve(form)
+                        return(form)
                     } else {
                         console.log('passsssssssssss');
-                        resolve([])
+                        return([])
                     }
                 }
             })
             .catch(err => console.log('Error while retrieving PlacementCertification record'))
-    })
 }
 
 function getCandidateCertificationRequirement(id, status) {
     console.log('getCandidateCertificationRequirement called ', id, status);
-    return new Promise((resolve) => {
         const CandidateCertificationRequirement = `/query/CandidateCertificationRequirement?fields=id,certification,userCertificationStatus&where=candidate.id=${id}AND isDeleted=false`
         return API.appBridge.httpGET(CandidateCertificationRequirement)
             .then(wcObj => {
@@ -88,34 +89,32 @@ function getCandidateCertificationRequirement(id, status) {
                 if (certifications.length > 0 && status === 'Approved') {
                     form.errorMessage = `Onboarding Validation: The following fields [ ${certifications.map(el => el.name).toString()} ] must be Active before Assignment is approved.`,
                         form.isFormValid = false
-                    resolve(form)
+                    return(form)
                 }
             })
             .catch(err => console.log('Error while retrieving CandidateCertificationRequirement record ', err))
-
-    })
 }
 
 function getPlacementRateCard(id, status) {
     console.log(' getPlacementRateCard called', id, status);
-   
-        const dateBegin = new Date(form.controls.dateBegin.value).getTime()
-        const rateCardQuery = `/query/PlacementRateCard?where=placement=${id}&fields=id,effectiveDate&orderBy=effectiveDate`
-        return API.appBridge.httpGET(rateCardQuery)
-            .then((rcObj) => {
-                if (rcObj.data.count > 0 && status === 'Approved') {
-                    console.log('ssssdsddsd ', rcObj);
-                    rcObj.data.data.forEach(element => {
-                        console.log('new Date(element.effectiveDate).getTime() ', new Date(element.effectiveDate).getTime());
-                        console.log('dateBegin ', dateBegin);
-                        if (new Date(element.effectiveDate).getTime() > dateBegin) {
-                            form.errorMessage = `PlacementRateCard is required. `,
-                                form.isFormValid = false
-                            return(form)
-                        }
-                    })
-                }
-            })
+
+    const dateBegin = new Date(form.controls.dateBegin.value).getTime()
+    const rateCardQuery = `/query/PlacementRateCard?where=placement=${id}&fields=id,effectiveDate&orderBy=effectiveDate`
+    return API.appBridge.httpGET(rateCardQuery)
+        .then((rcObj) => {
+            if (rcObj.data.count > 0 && status === 'Approved') {
+                console.log('ssssdsddsd ', rcObj);
+                rcObj.data.data.forEach(element => {
+                    console.log('new Date(element.effectiveDate).getTime() ', new Date(element.effectiveDate).getTime());
+                    console.log('dateBegin ', dateBegin);
+                    if (new Date(element.effectiveDate).getTime() > dateBegin) {
+                        form.errorMessage = `PlacementRateCard is required. `,
+                            form.isFormValid = false
+                        return (form)
+                    }
+                })
+            }
+        })
 }
 
 async function getNumberofPlacement(jobId) {
@@ -124,57 +123,57 @@ async function getNumberofPlacement(jobId) {
 }
 
 function getPlacement(id) {
-   
-        const candidateQuery = `/entity/Placement/${id}?fields=id,candidate(status,customText20,ssn,dateOfBirth),clientCorporation(status),jobOrder(status,customInt2)`
-        return API.appBridge.httpGET(candidateQuery)
-            .then((candObj) => {
-                console.log('candidate ', candObj.data.data, " candObj.data.data.id > 0 ", candObj.data.data.id > 0);
 
-                if (candObj.data.data.id > 0) {
-                    // console.log(candObj.data.data.candidate.customText20, ' candidate ', (candObj.data.data.candidate.customText20 === 'Available' || candObj.data.data.candidate.customText20 === 'Approved'));
-                    if (candObj.data.data.candidate.status !== 'Associate' ||
-                        !(candObj.data.data.candidate.customText20 === 'Available' || candObj.data.data.candidate.customText20 === 'Approved')) {
-                        form.errorMessage = 'Candidate status is not valid for Assignment',
-                            form.isFormValid = false
-                        return form
-                    } else if (candObj.data.data.clientCorporation.status !== 'Active Account') {
-                        form.errorMessage = 'clientCorporation status is not valid for Assignment',
-                            form.isFormValid = false
-                        return form
-                    } else if (candObj.data.data.candidate.ssn === '') {
-                        form.errorMessage = 'Candidate SSN cannot be blank',
-                            form.isFormValid = false
-                        return form
-                    } else if (candObj.data.data.candidate.dateOfBirth === null) {
-                        form.errorMessage = 'Candidate dateOfBirth cannot be blank',
-                            form.isFormValid = false
-                        return form
-                    } else if (candObj.data.data.jobOrder.status === 'Draft' ||
-                        candObj.data.data.jobOrder.status === 'Placed' ||
-                        candObj.data.data.jobOrder.status === 'Cancelled' ||
-                        candObj.data.data.jobOrder.status === 'Template' ||
-                        candObj.data.data.jobOrder.status === 'Recruiting Job Order' ||
-                        candObj.data.data.jobOrder.status === 'Archive') {
-                        form.errorMessage = `jobOrder Status is not valid for Assignment: ${candObj.data.data.jobOrder.status}`,
-                            form.isFormValid = false
-                        return form
-                    } else if (!candObj.data.data.jobOrder.customInt2) {
-                        // && Number(candObj.data.data.jobOrder.placementNumber) * 1.5 > candObj.data.data.jobOrder.customInt2
-                        const NumberOfPlacements = getNumberofPlacement(candObj.data.data.jobOrder.id)
-                        NumberOfPlacements.then(val => {
-                            if (val.placements.total * 1.5 > candObj.data.data.jobOrder.customInt2) {
-                                form.errorMessage = `This assignment exceeds the Overfill threshold of 50% over # Committed`,
-                                    form.isFormValid = false
-                                return form
-                            } else
-                                return []
-                        })
-                    } else
-                        return []
-                }
+    const candidateQuery = `/entity/Placement/${id}?fields=id,candidate(status,customText20,ssn,dateOfBirth),clientCorporation(status),jobOrder(status,customInt2)`
+    return API.appBridge.httpGET(candidateQuery)
+        .then((candObj) => {
+            console.log('candidate ', candObj.data.data, " candObj.data.data.id > 0 ", candObj.data.data.id > 0);
+
+            if (candObj.data.data.id > 0) {
+                // console.log(candObj.data.data.candidate.customText20, ' candidate ', (candObj.data.data.candidate.customText20 === 'Available' || candObj.data.data.candidate.customText20 === 'Approved'));
+                if (candObj.data.data.candidate.status !== 'Associate' ||
+                    !(candObj.data.data.candidate.customText20 === 'Available' || candObj.data.data.candidate.customText20 === 'Approved')) {
+                    form.errorMessage = 'Candidate status is not valid for Assignment',
+                        form.isFormValid = false
+                    return form
+                } else if (candObj.data.data.clientCorporation.status !== 'Active Account') {
+                    form.errorMessage = 'clientCorporation status is not valid for Assignment',
+                        form.isFormValid = false
+                    return form
+                } else if (candObj.data.data.candidate.ssn === '') {
+                    form.errorMessage = 'Candidate SSN cannot be blank',
+                        form.isFormValid = false
+                    return form
+                } else if (candObj.data.data.candidate.dateOfBirth === null) {
+                    form.errorMessage = 'Candidate dateOfBirth cannot be blank',
+                        form.isFormValid = false
+                    return form
+                } else if (candObj.data.data.jobOrder.status === 'Draft' ||
+                    candObj.data.data.jobOrder.status === 'Placed' ||
+                    candObj.data.data.jobOrder.status === 'Cancelled' ||
+                    candObj.data.data.jobOrder.status === 'Template' ||
+                    candObj.data.data.jobOrder.status === 'Recruiting Job Order' ||
+                    candObj.data.data.jobOrder.status === 'Archive') {
+                    form.errorMessage = `jobOrder Status is not valid for Assignment: ${candObj.data.data.jobOrder.status}`,
+                        form.isFormValid = false
+                    return form
+                } else if (!candObj.data.data.jobOrder.customInt2) {
+                    // && Number(candObj.data.data.jobOrder.placementNumber) * 1.5 > candObj.data.data.jobOrder.customInt2
+                    const NumberOfPlacements = getNumberofPlacement(candObj.data.data.jobOrder.id)
+                    NumberOfPlacements.then(val => {
+                        if (val.placements.total * 1.5 > candObj.data.data.jobOrder.customInt2) {
+                            form.errorMessage = `This assignment exceeds the Overfill threshold of 50% over # Committed`,
+                                form.isFormValid = false
+                            return form
+                        } else
+                            return []
+                    })
+                } else
+                    return []
+            }
 
 
-            })
-            .catch(err => console.log('Error while retrieving Candidate record'))
- 
+        })
+        .catch(err => console.log('Error while retrieving Candidate record'))
+
 }
