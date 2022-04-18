@@ -29,13 +29,11 @@ if (API.currentEntity === "Placement") {
         .then(candidateObj => {
             console.log(candidateObj.data.data.candidate.id);
             if (candidateObj.data.data.candidate.id > 0) {
-
                 return Promise.resolve(
                     getPlacement(API.currentEntityId, form.controls.status.value),
                     getCandidateCertificationRequirement(API.currentEntityId, form.controls.status.value),
                     getPlacementRateCard(API.currentEntityId, form.controls.status.value),
                     getPlacementCertification(API.currentEntityId, form.controls.status.value))
-
             }
         });
 }
