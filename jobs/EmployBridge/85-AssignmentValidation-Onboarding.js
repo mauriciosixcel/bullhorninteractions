@@ -31,7 +31,7 @@ if (API.currentEntity === "Placement") {
             if (candidateObj.data.data.candidate.id > 0) {
                 return Promise.resolve(
                     getPlacement(API.currentEntityId, form.controls.status.value),
-                    getCandidateCertificationRequirement(API.currentEntityId, form.controls.status.value),
+                    getCandidateCertificationRequirement(candidateObj.data.data.candidate.id, form.controls.status.value),
                     getPlacementRateCard(API.currentEntityId, form.controls.status.value),
                     getPlacementCertification(API.currentEntityId, form.controls.status.value))
             }
@@ -87,7 +87,7 @@ function getCandidateCertificationRequirement(id, status) {
                 if (certifications.length > 0 && status === 'Approved') {
                     form.errorMessage = `Onboarding Validation: The following fields [ ${certifications.map(el => el.name).toString()} ] must be Active before Assignment is approved.`,
                         form.isFormValid = false
-                    return(form)
+                    return form
                 }
             })
             .catch(err => console.log('Error while retrieving CandidateCertificationRequirement record ', err))
@@ -108,7 +108,7 @@ function getPlacementRateCard(id, status) {
                     if (new Date(element.effectiveDate).getTime() > dateBegin) {
                         form.errorMessage = `PlacementRateCard is required. `,
                             form.isFormValid = false
-                        return (form)
+                        return form
                     }
                 })
             }

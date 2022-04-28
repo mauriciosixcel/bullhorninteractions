@@ -47,22 +47,21 @@ if (API.form.controls['customText8'].value === '') {
 const modalView = API.form.layout;
 //getting the tittle by xpath
 let tittle = document.evaluate(
-    '//h1[contains(., "Move 1 to Assignment")]',
+    '//H1[contains(., "Move 1 to Assignment")]',
     document,
     null,
     XPathResult.FIRST_ORDERED_NODE_TYPE,
     null,
 ).singleNodeValue;
 
+console.log('tittleeee ', tittle);
 if (modalView === 'vertical' && tittle.innerText.includes('Move 1 to Assignment')) {
 
     //get the info of JobOrder.numOpenings (# of Openings)
     const elems = document.body.getElementsByTagName('div');
 
     for (let i = 0; i < elems.length; i++) {
-        console.log('suuuuuuuuuuuupppppppppppppp');
         if (elems[i].getAttribute('data-automation-id') === 'id') {
-            
             //get the element child by class
             const valuElem = elems[i].getElementsByClassName('value');
 
