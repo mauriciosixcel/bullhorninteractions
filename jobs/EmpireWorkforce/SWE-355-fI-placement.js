@@ -1,4 +1,6 @@
-const payrollSyncStatusLookupID = API.form.controls.payrollSyncStatus.value;
+const payrollSyncStatusLookupID =
+  API.form.controls.payrollSyncStatus.value.id ??
+  API.form.controls.payrollSyncStatus.value;
 if (payrollSyncStatusLookupID === 3) {
   API.setReadOnly("legalBusinessEntity", true);
 }

@@ -32,7 +32,7 @@ if (API.currentEntity === "Candidate") {
         (form.isFormValid = false);
       resolve(form);
       return;
-    } else if ((zip !== null && zip.length > 5) || zip === null) {
+    } else if ((zip !== null && zip.length > 5 || zip.length < 5  )|| zip === null) {
       (form.errorMessage = "Zip Code must be 5 digits"),
         (form.isFormValid = false);
       resolve(form);
