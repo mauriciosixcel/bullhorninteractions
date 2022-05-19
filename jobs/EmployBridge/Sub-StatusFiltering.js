@@ -74,12 +74,30 @@ function deleteStatus(arrayList) {
 console.log("Mauricio - Status/Sub-Status Filtering remove items ", API);
 let talentStatus = API.form.controls.status.value;
 let customText33 = API.form.controls.customText33;
+let customText20 = API.form.controls.customText20.value;
 if (
   talentStatus === "Inactive" ||
   talentStatus === "Do Not Use" ||
   talentStatus === "Do Not Use - Adjudication"
 ) {
+  API.setValue('customText20', 'Unavailable')
   customText33.hidden = false;
   customText33.required = true;
   API.markAsInvalid("customText33", "Cannot be blank");
-} else customText33.hidden = true;
+} else {
+  customText33.hidden = true;
+  customText33.required = false;
+}
+if ((talentStatus === "Candidate" || talentStatus === "Associate") && customText20 === 'Unavailable') {
+  API.setValue('customText20', '')
+}
+if ((talentStatus === "Associate") && (customText20 === 'Onboarding' || customText20 === 'Applying')) {
+  API.setValue('customText20', '')
+}
+if ((talentStatus === "Candidate") && (customText20 === 'Available' || customText20 === 'Assigned')) {
+  API.setValue('customText20', '')
+}
+if ((talentStatus === "Inactive") && (customText33 !== '')) {
+  API.setValue('customText33', '')
+  API.markAsInvalid("customText33", "Cannot be blank");
+}

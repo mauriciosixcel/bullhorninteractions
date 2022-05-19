@@ -43,8 +43,6 @@ return API.appBridge.httpGET(getclientCorporationtrackTitle)
                 filteredcontacts_1.push({ label: element.name, value: element.name });
             });
             elem.options = filteredcontacts_1;
-            elem2.options = filteredcontacts_1;
-            elem3.options = filteredcontacts_1;
         }
     })
     .catch(err => console.log('Error while retrieving getclientCorporationtrackTitle 2 ', err))
@@ -318,23 +316,27 @@ return API.appBridge.httpGET(getclientCorporationtrackTitle)
 
 
 
-//billingUserID Placement (all tracks)
-console.log('API ', API);
-const placement = `/entity/Placement/${API.form.currentEntityId}?fields=id,clientCorporation`
+//billingUserID, approvingUserID, backupApprovingUserID Placement (all tracks)
+console.log("billingUserID, approvingUserID, backupApprovingUserID Placement (all tracks) API  ", API);
+const placement = `/entity/Placement/${API.form.currentEntityId}?fields=id,clientCorporation`;
 return API.appBridge
   .httpGET(placement)
   .then((placementObj) => {
     if (placementObj.data.data.id > 0) {
       const clientCorporation = placementObj.data.data.clientCorporation.id;
-      const getclientCorporationtrackTitle = `/query/ClientContact?fields=id,trackTitle,customText20,clientCorporation,name&where=trackTitle='Account Contact' AND clientCorporation.id=${clientCorporation}&count=500`;
+        const getclientCorporationContacts = `/query/ClientContact?fields=id,name,status&where=clientCorporation.id=${clientCorporation}&count=500`;
       return API.appBridge
-        .httpGET(getclientCorporationtrackTitle)
+          .httpGET(getclientCorporationContacts)
         .then((object) => {
-          console.log("passContacts");
+            console.log("passContacts cvv", object);
           if (object.data.count > 0) {
             console.log("filteredContacts ", API);
             let elem = API.form.controls["billingClientContact"];
+              let elem2 = API.form.controls["approvingClientContact"];
+              let elem3 = API.form.controls["backupApprovingClientContact"];
             elem.controlType = "select";
+              elem2.controlType = "select";
+              elem3.controlType = "select";
             let filteredcontacts_1 = [];
             object.data.data.forEach((element) => {
               filteredcontacts_1.push({
@@ -343,80 +345,8 @@ return API.appBridge
               });
             });
             elem.options = filteredcontacts_1;
-          }
-        })
-        .catch((err) =>
-          console.log(
-            "Error while retrieving getclientContactstrackTitle 1",
-            err
-          )
-        );
-    }
-  })
-  .catch((err) => console.log("Error ", err));
-
-//approvingUserID Placement (all tracks)
-console.log("API ", API);
-const placement = `/entity/Placement/${API.form.currentEntityId}?fields=id,clientCorporation`;
-return API.appBridge
-  .httpGET(placement)
-  .then((placementObj) => {
-    if (placementObj.data.data.id > 0) {
-      const clientCorporation = placementObj.data.data.clientCorporation.id;
-      const getclientCorporationtrackTitle = `/query/ClientContact?fields=id,trackTitle,customText20,clientCorporation,name&where=trackTitle='Account Contact' AND clientCorporation.id=${clientCorporation}&count=500`;
-      return API.appBridge
-        .httpGET(getclientCorporationtrackTitle)
-        .then((object) => {
-          console.log("passContacts");
-          if (object.data.count > 0) {
-            console.log("filteredContacts ", API);
-            let elem = API.form.controls["reportTo"];
-            elem.controlType = "select";
-            let filteredcontacts_1 = [];
-            object.data.data.forEach((element) => {
-              filteredcontacts_1.push({
-                label: element.name,
-                value: element.name,
-              });
-            });
-            elem.options = filteredcontacts_1;
-          }
-        })
-        .catch((err) =>
-          console.log(
-            "Error while retrieving getclientContactstrackTitle 1",
-            err
-          )
-        );
-    }
-  })
-  .catch((err) => console.log("Error ", err));
-
-//backupApprovingUserID Placement (all tracks)
-console.log("API ", API);
-const placement = `/entity/Placement/${API.form.currentEntityId}?fields=id,clientCorporation`;
-return API.appBridge
-  .httpGET(placement)
-  .then((placementObj) => {
-    if (placementObj.data.data.id > 0) {
-      const clientCorporation = placementObj.data.data.clientCorporation.id;
-      const getclientCorporationtrackTitle = `/query/ClientContact?fields=id,trackTitle,customText20,clientCorporation,name&where=trackTitle='Account Contact' AND clientCorporation.id=${clientCorporation}&count=500`;
-      return API.appBridge
-        .httpGET(getclientCorporationtrackTitle)
-        .then((object) => {
-          console.log("passContacts");
-          if (object.data.count > 0) {
-            console.log("filteredContacts ", API);
-            let elem = API.form.controls["reportTo"];
-            elem.controlType = "select";
-            let filteredcontacts_1 = [];
-            object.data.data.forEach((element) => {
-              filteredcontacts_1.push({
-                label: element.name,
-                value: element.name,
-              });
-            });
-            elem.options = filteredcontacts_1;
+              elem2.options = filteredcontacts_1
+              elem3.options = filteredcontacts_1
           }
         })
         .catch((err) =>
@@ -444,7 +374,7 @@ return API.appBridge
           console.log("passContacts");
           if (object.data.count > 0) {
             console.log("filteredContacts ", API);
-            let elem = API.form.controls["reportTo"];
+              let elem = API.form.controls["correlatedCustomText10"];
             elem.controlType = "select";
             let filteredcontacts_1 = [];
             object.data.data.forEach((element) => {
