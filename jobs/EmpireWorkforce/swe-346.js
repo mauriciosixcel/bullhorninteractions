@@ -7,8 +7,9 @@
 if (API.currentEntity === "Placement" && API.pageContext === "Record") {
   console.log(
     "Running Placement-PayrollSync Checks",
-    form.controls.payrollEmployeeType
+    form.controls.employeeType.value
   );
+
   var PlacementURL =
     "/query/Placement?fields=id,payrollSyncStatus,employmentType,jobOrder&where=id=" +
     API.currentEntityId;
@@ -29,7 +30,7 @@ if (API.currentEntity === "Placement" && API.pageContext === "Record") {
       ) &&
       (syncStatus === null || syncStatusConst.includes(syncStatus)) &&
       employeeTypeConst.includes(
-        form.controls.payrollEmployeeType.value.label.toLowerCase()
+        form.controls.employeeType.value.toLowerCase()
       )
     ) {
       console.log(

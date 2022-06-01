@@ -61,4 +61,20 @@ API.getControl('address').valueChanges.subscribe(() => {
 });
 
 
- 
+// SWE-81: Customization Interaction: Company Export Status
+// Name: Belflex Customization - Company Export Status
+// Entity/Tracks: Company
+// Fields: customText15
+// Event: FI on init
+
+console.log('SWE-81 - Mauricio - Company Export Status ', API);
+const userTypeName = API._globals.user.userTypeName
+if (!userTypeName.includes('Pay Bill Super User')) {
+    API.setReadOnly('customInt1', true)
+    API.setReadOnly('customText4', true)
+    API.setReadOnly('customInt2', true)
+    API.setReadOnly('customDate1', true)
+    API.setReadOnly('customText12', true)
+} else {
+    API.setValue('customText12', 'Ready to Export')
+}
