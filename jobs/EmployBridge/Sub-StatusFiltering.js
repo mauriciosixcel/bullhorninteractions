@@ -101,3 +101,46 @@ if ((talentStatus === "Inactive") && (customText33 !== '')) {
   API.setValue('customText33', '')
   API.markAsInvalid("customText33", "Cannot be blank");
 }
+
+let elem = API.form.controls["customText33"];
+elem.controlType = "select";
+let options = [];
+switch (talentStatus) {
+  case 'Inactive':
+    options = [
+      'Lack of Relevant Experience',
+      'Refused Background Check',
+      'Refused Drug Screen',
+      'Not Eligible to Work in the U.S.',
+      'Unresponsive',
+      'Seeking Higher Pay',
+      'Not Actively Seeking Work',
+      'Desired Shift Unavailable',
+      'NCNS to Branch Interview / Appointment',
+      'NCNS to Client Interview / Appointment /',
+      'Orientation',
+      'Unable to Accommodate Commute Preferences',
+      'Accepted Other Job Offer',
+      'Staying with Current Employer',
+      'Position(s) Filled',
+      'Hired on By Client',
+    ];
+    break;
+  case 'Do Not Use':
+    options = [
+      'Conflict with Supervisor',
+      'Poor Attitude',
+      'Not Reliable / Poor Assignment Attendance',
+      'Continuous NCNS to Assignment(s)',
+      'EB Policy Violation',
+      'Unsafe Work Habits',
+      'Stolen Time'
+    ];
+    break;
+  case 'Do Not Use - Adjudication':
+    options = ['Does not meet requirements'];
+    break;
+  default:
+    break;
+}
+elem.options = options;

@@ -5,6 +5,13 @@ var controller = {
       console.log("inside updateExternalId fn");
       console.log("companyId: ", companyId);
       console.log("locationId: ", locationId);
+      
+      if (API.form.controls['customText1'].value === '') {
+        let customText1 = `${form.data.data.data.clientCorporation.name.str.substring(0, 2)}${locationId.slice(-4)}`;
+        console.log("customText1: ", customText1);
+          API.setValue('customText1', customText1)
+      }
+
       if (companyId && locationId) {
         var externalId = companyId + "-" + locationId;
         var locationObj = {
@@ -33,3 +40,4 @@ if (
     form.data.data.changedEntityId
   );
 }
+

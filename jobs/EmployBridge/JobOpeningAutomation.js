@@ -25,16 +25,17 @@ if (customInt2 < customInt4) {
     console.log('holaaaa');
     customText8.hidden = false;
     customText8.required = true;
+    if (API.form.controls['customText8'].value === '') {
+        API.markAsInvalid('customText8', 'Cannot be blank');
+    }
 } else if (customInt2 === customInt4) {
-    customText8.hidden = true;
+    customText8.required = false;
     customText8.removeTooltipArrow = true
+    customText8.hidden = true;
 } else {
+    customText8.required = false;
     customText8.hidden = true;
     API.markAsInvalid(API.getActiveKey(), '# Committed cannot exceed Total Client Need');
-}
-
-if (API.form.controls['customText8'].value === '') {
-    API.markAsInvalid('customText8', 'Cannot be blank');
 }
 
 // SWE-128:  Job Opening Automation

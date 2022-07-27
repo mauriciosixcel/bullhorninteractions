@@ -30,14 +30,14 @@ function validateSSNformat(ssn) {
 
 
 if (API.currentEntity === "Placement") {
-    console.log('SWE-356 ', API, form);
+    console.log('SWE-356 ', form.controls['status'].value);
     const placement = `/entity/Placement/${API.currentEntityId}?fields=id,clientCorporation,employmentType,employeeType,candidate,status`
     return new Promise((resolve) => {
         return API.appBridge.httpGET(placement)
             .then((wcObj) => {
                 if (wcObj.data.data.id > 0 &&
                     form.controls['status'].value === 'Approved' &&
-                    (wcObj.data.data.employmentType === 'Contract' || wcObj.data.data.employmentType === 'Contract To Hire') &&
+                    (wcObj.data.data.employmentType === 'TEMP' || wcObj.data.data.employmentType === 'Contract To Hire') &&
                     form.controls['employeeType'].value === 'W2'
                 ) {
                     let requiredPlacementFields =

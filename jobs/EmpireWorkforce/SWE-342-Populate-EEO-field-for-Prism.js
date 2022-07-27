@@ -1,10 +1,10 @@
 if (API.currentEntity === "Placement") {
-  const workersCompRateID = form.controls.workersCompensationRate.value.id;
+  const workersCompRateID = form.controls.workersCompensationRate.value.compensation.code;
   const employeeOTType =
     form.controls["timeAndExpense.employeeOtType"].value === 3 ? "Y" : "N";
   const correlatedCustomText5 = form.controls.correlatedCustomText5.value;
   const Placement = `/entity/Placement/${API.currentEntityId}`;
-
+  console.log('form.controls.workersCompensationRate.value ', form.controls.workersCompensationRate.value.compensation);
   console.log("workersCompRateID ", workersCompRateID);
   console.log("employeeOTType ", employeeOTType);
   console.log("correlatedCustomText5 ", correlatedCustomText5);

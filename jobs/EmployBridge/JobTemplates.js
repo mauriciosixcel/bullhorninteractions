@@ -20,7 +20,7 @@ if (clientID) {
         });
 }
 // 3.1.3.2 PRevent duplicate names when create Job codes ClientCorporationCustomObjectInstance7
-if (API.currentEntity === "ClientCorporationCustomObjectInstance7" && API.currentEntityId === null) {
+if (API.currentEntity === "ClientCorporationCustomObjectInstance7") {
     return new Promise((resolve) => {
         const searchJobTemplates = `/query/ClientCorporationCustomObjectInstance7?fields=id,text1&where=clientCorporation=${form.data.clientCorporation.id}`
         return API.appBridge.httpGET(searchJobTemplates)
@@ -28,10 +28,12 @@ if (API.currentEntity === "ClientCorporationCustomObjectInstance7" && API.curren
                 if (resp.data.count > 0) {
                     var contacts = resp.data.data;
                     const matches = contacts.filter(element => {
-                        if (element.text1 === form.controls.text1.value) {
+                        if (element.text1 === form.controls.text1.value &&
+                            form.controls.text1.value !== form.controls.text1.initialValue) {
                             return element
                         }
                     })
+                    console.log('api ', API, form);
                     if (matches.length > 0) {
                         form.errorMessage = 'A record already exists for this Job Template Name on this Account',
                             form.isFormValid = false
@@ -40,7 +42,6 @@ if (API.currentEntity === "ClientCorporationCustomObjectInstance7" && API.curren
                         resolve([])
                 } else
                     resolve([])
-
             });
     })
 }
@@ -122,6 +123,18 @@ if (item.label === 'Job Templates') {
 
 //3.1.3.9 Create a Field Interaction On Change on customText25(Job II & III) to query ClientCorporationCustomObjectInstance7 where text2 equals customText25.
 console.log('custom interaction customText25 ', API)
+function getCategoryId(specialtieName) {
+    return API.appBridge.httpGET(`query/Category?fields=id,name,specialties&where=name='${specialtieName}'`)
+        .then(respObj => {
+            console.log('hoaaaaaaaaaaaaaaa', respObj);
+            if (respObj.data.count > 0) {
+                console.log('hoaaaaaaaaaaaaaaa', respObj.data.data[0]);
+                let dataCategories = respObj.data.data[0]
+                API.setValue('categories', dataCategories.id)
+            }
+
+        })
+}
 const searchJobTemplates = `/query/ClientCorporationCustomObjectInstance7?fields=clientCorporation(customText5),text1,text2,textBlock1,text4,text9,text5,text6,text7,text10,text11,text12&where=clientCorporation=${API.form.controls.clientCorporation.value.id}`
 API.appBridge.httpGET(searchJobTemplates)
     .then(resp => {
@@ -133,7 +146,7 @@ API.appBridge.httpGET(searchJobTemplates)
 
             console.log('filteredJobTemplatesssssssss', filteredJobTemplate);
             API.setValue('description', filteredJobTemplate.textBlock1)
-            API.setValue('customText14', filteredJobTemplate.text9)
+            //API.setValue('customText14', filteredJobTemplate.text9)
             console.log('filteredJobTemplate.text6 ', filteredJobTemplate.text6);
             API.setValue('customText2', filteredJobTemplate.text6)
             console.log('filteredJobTemplate.text7 ', filteredJobTemplate.text7);
@@ -145,7 +158,8 @@ API.appBridge.httpGET(searchJobTemplates)
             API.setValue('title', filteredJobTemplate.text2)
             API.setValue('customText13', filteredJobTemplate.clientCorporation.customText5)
             if (filteredJobTemplate.text4 !== null) {
-                API.setValue('categories', filteredJobTemplate.text4)
+                getCategoryId(filteredJobTemplate.text4)
+
             }
             filteredJobTemplate.text5?.forEach(element => {
                 return API.appBridge.httpGET(`query/Skill?fields=id,name&where=name='${element}'`)
